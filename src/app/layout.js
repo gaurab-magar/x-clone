@@ -21,9 +21,9 @@ export default function RootLayout({ children }) {
           <div>
             {children}
           </div>
-          <div className="hidden md:flex flex-col border-l h-screen p-2 w-1/4">
-            <div className="sticky top-0 py-2">
-                <input type="text" placeholder="search.." className="bg-gray-100 text-sm w-full px-4 py-1 rounded-full outline-none" />
+          <div className="hidden md:flex flex-col border-l h-screen p-2 w-2/6">
+            <div className="sticky top-0 py-2 ">
+                <input type="text" placeholder="search..." className="bg-gray-100 text-sm w-full px-4 py-2 rounded-full outline-none" />
             </div>
             <News />
           </div>
