@@ -10,7 +10,7 @@ import { BsThreeDots } from "react-icons/bs";
 const Sidebar = () => {
     const {data: session} = useSession();
   return (
-    <div className='p-3 flex flex-col gap-4'>
+    <div className='p-3 h-full flex flex-col gap-4'>
         <Link href='/'>
             <FaXTwitter className='w-16 h-16 hover:bg-gray-100 cursor-pointer p-3 rounded-full transition-all duration-200' />
         </Link>
@@ -31,18 +31,20 @@ const Sidebar = () => {
                 </button>
             )
         }
-        {session && (
-            <div className='p-2 flex items-start hover:bg-gray-200 cursor-pointer rounded-md transition duration-200 text-sm text-gray-600'>
-                <div className='flex items-center gap-3 '>
-                    <Image src={session.user.image} alt='user-img' width={40} height={40} className='rounded-full' />
-                    <div>
-                        <h3 className='font-semibold text-gray-700' >{session.user.name}</h3>
-                        <p className='text-gray-500 font-light'>@{session.user.username}</p>
+        <div className='mt-auto mb-6'>
+            {session && (
+                <div className='p-2 flex items-start hover:bg-gray-200 cursor-pointer rounded-md transition duration-200 text-sm text-gray-600'>
+                    <div className='flex items-center gap-3 '>
+                        <Image src={session.user.image} alt='user-img' width={40} height={40} className='rounded-full' />
+                        <div>
+                            <h3 className='font-semibold text-gray-700' >{session.user.name}</h3>
+                            <p className='text-gray-500 font-light'>@{session.user.username}</p>
+                        </div>
                     </div>
+                        <BsThreeDots className='ml-2 text-lg'/>
                 </div>
-                    <BsThreeDots className='ml-2 text-lg'/>
-            </div>
-        )}
+            )}
+        </div>
     </div>
   )
 }

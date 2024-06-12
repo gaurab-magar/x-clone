@@ -16,11 +16,11 @@ export default function RootLayout({ children }) {
     <SessionWrapper>
       <html lang="en">
         <body className={inter.className}>
-          <div className="flex items-center justify-between max-w-6xl mx-auto">
+          <div className="flex justify-between max-w-6xl mx-auto">
             <div className="hidden md:inline border-r h-screen">
               <Sidebar />
             </div>
-            <div>
+            <div className="w-2xl flex-1 p-4">
               {children}
             </div>
             <div className="hidden md:flex flex-col border-l h-screen p-2 w-2/6">
