@@ -70,6 +70,7 @@ const Input = () => {
         setText('');
         setImageFileUrl(null);
         setSelectedImage(null);
+        location.reload();
     }
   return (
     <div className='py-2'>
