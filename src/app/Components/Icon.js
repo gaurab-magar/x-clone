@@ -6,10 +6,12 @@ import { RiShare2Line } from "react-icons/ri";
 import { HiSaveAs } from "react-icons/hi";
 import { BiRepost } from "react-icons/bi";
 import { MdOutlineDelete } from "react-icons/md";
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { collection, deleteDoc, doc, getFirestore, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { app } from '@/Firebase';
 import { FcLike } from "react-icons/fc";
+import { useRecoilState } from 'recoil';
+import { modalState, postIdState } from '@/atom/modalAtom';
 
 
 
@@ -17,6 +19,10 @@ const Icon = ({id,uid}) => {
     const { data: session } = useSession();
     const [hasLiked, setHasLiked] = useState(false);
     const [Likes, setLikes] = useState([]);
+
+    const [open,setOpen] = useRecoilState(modalState);
+    const [postId,setPostId] = useRecoilState(postIdState);
+
     const db = getFirestore(app);
   
     useEffect(() => {
@@ -73,7 +79,15 @@ const Icon = ({id,uid}) => {
             )}
         </div>
         <BiRepost className='text-3xl hover:text-red-500 transition duration-200 ease-in-out' />
-        <FaRegComment className='text-2xl hover:text-sky-500 transition duration-200 ease-in-out'/>
+        <FaRegComment onClick={()=>{
+            if(!session){
+                alert('You must be logged in to comment on a post');
+                signIn()
+            }else{
+                setOpen(true)
+                postIdState(id)
+            }
+        }} className='text-xl hover:text-sky-500 transition duration-200 ease-in-out'/>
         <RiShare2Line className='text-2xl hover:text-green-400 transition duration-200 ease-in-out'/>
         <HiSaveAs className='text-2xl hover:text-gray-500 transition duration-200 ease-in-out'/>
         {session?.user?.uid === uid && (
