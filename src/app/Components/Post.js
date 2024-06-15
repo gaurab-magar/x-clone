@@ -5,8 +5,8 @@ import { BsThreeDots } from "react-icons/bs";
 import Icon from './Icon';
 
 
-const Post = ({post}) => {
-    console.log(post)
+const Post = ({post,id}) => {
+
   return (
     <div className='border-b py-2'>
         <div className='flex items-start gap-1'>
@@ -25,7 +25,7 @@ const Post = ({post}) => {
                         <Image src={post.image} alt='uploadedImage' className='object-cover w-full h-full rounded-2xl shadow-md' width={50} height={50} />
                     </div>
                 </Link>
-                <Icon />
+                <Icon id={id} uid={post.uid} />
             </div>
         </div>
 

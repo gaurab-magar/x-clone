@@ -28,7 +28,7 @@ const Posts = () => {
         <p>No posts available</p> // Message to show when no posts are available
       ) : (
             posts.map((post)=>(
-                <Post key={post.id} post={post} />
+                <Post key={post.id} post={post} id={post.id} />
             ))
         )
       }
