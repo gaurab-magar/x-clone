@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { collection, getDocs, getFirestore, query } from 'firebase/firestore';
+import { collection, getDocs, getFirestore, orderBy, query } from 'firebase/firestore';
 import { app } from '@/Firebase';
 import Post from './Post';
 

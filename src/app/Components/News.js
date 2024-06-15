@@ -22,7 +22,7 @@ const News = () => {
       </div>
       {news.slice(0,articleNum).map((article)=>
       (
-        <div key={article.url}>
+        <div key={article.url} >
           <Link href={article.url} target='_blank'>
           <div className='flex items-center p-3 my-2 hover:bg-gray-200 transition duration-200  border-b shadow-md gap-2'>
             <div>

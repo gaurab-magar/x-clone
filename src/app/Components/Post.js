@@ -2,11 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link';
 import React from 'react'
 import { BsThreeDots } from "react-icons/bs";
-import { CiHeart } from "react-icons/ci";
-import { FaRegComment } from "react-icons/fa6";
-import { RiShare2Line } from "react-icons/ri";
-import { HiSaveAs } from "react-icons/hi";
-import { BiRepost } from "react-icons/bi";
+import Icon from './Icon';
+
 
 const Post = ({post}) => {
     console.log(post)
@@ -28,13 +25,7 @@ const Post = ({post}) => {
                         <Image src={post.image} alt='uploadedImage' className='object-cover w-full h-full rounded-2xl shadow-md' width={50} height={50} />
                     </div>
                 </Link>
-                <div className='flex gap-2 py-2 px-1'>
-                    <CiHeart className='text-3xl' />
-                    <BiRepost className='text-3xl' />
-                    <FaRegComment className='text-2xl'/>
-                    <RiShare2Line className='text-2xl'/>
-                    <HiSaveAs className='text-2xl'/>
-                </div>
+                <Icon />
             </div>
         </div>
 

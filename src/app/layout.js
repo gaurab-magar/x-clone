@@ -17,13 +17,13 @@ export default function RootLayout({ children }) {
       <html lang="en">
         <body className={inter.className}>
           <div className="flex justify-between max-w-6xl mx-auto">
-            <div className="hidden md:inline border-r h-screen">
+            <div className="hidden sticky top-0 md:inline border-r h-screen">
               <Sidebar />
             </div>
             <div className="w-2xl flex-1 p-4">
               {children}
             </div>
-            <div className="hidden md:flex flex-col border-l h-screen p-2 w-2/6">
+            <div className="hidden sticky top-0 md:flex flex-col border-l h-screen p-2 w-2/6">
               <div className="sticky top-0 py-2 ">
                   <input type="text" placeholder="search..." className="bg-gray-100 text-sm w-full px-4 py-2 rounded-full outline-none" />
               </div>
