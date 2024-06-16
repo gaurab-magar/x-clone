@@ -19,6 +19,7 @@ const Icon = ({id,uid}) => {
     const { data: session } = useSession();
     const [hasLiked, setHasLiked] = useState(false);
     const [Likes, setLikes] = useState([]);
+    const [comments, setComments] = useState([]);
 
     const [open,setOpen] = useRecoilState(modalState);
     const [postId,setPostId] = useRecoilState(postIdState);
@@ -62,6 +63,13 @@ const Icon = ({id,uid}) => {
             alert('you are not authorized to delete this post');
         }
     }
+
+    useEffect(()=>{
+      const unsubscribe = onSnapshot(collection(db,'posts',id,'comments'),(snapshot)=>{
+        setComments(snapshot.docs);
+      })
+      return ()=> unsubscribe()
+    },[db,id])
   
     if (!session) {
       return <div>You must be logged in to like a post.</div>;
@@ -79,15 +87,20 @@ const Icon = ({id,uid}) => {
             )}
         </div>
         <BiRepost className='text-3xl hover:text-red-500 transition duration-200 ease-in-out' />
-        <FaRegComment onClick={()=>{
-            if(!session){
-                alert('You must be logged in to comment on a post');
-                signIn()
-            }else{
-                setOpen(true)
-                postIdState(id)
-            }
-        }} className='text-xl hover:text-sky-500 transition duration-200 ease-in-out'/>
+        <div className='flex items-center'>
+          <FaRegComment onClick={()=>{
+              if(!session){
+                  alert('You must be logged in to comment on a post');
+                  signIn()
+              }else{
+                  setOpen(!open)
+                  setPostId(id)
+              }
+          }} className='text-xl hover:text-sky-500 transition duration-200 ease-in-out'/>
+          {comments.length > 0 && (
+            <span className='text-md font-semibold'>{comments.length}</span>
+          )}
+        </div>
         <RiShare2Line className='text-2xl hover:text-green-400 transition duration-200 ease-in-out'/>
         <HiSaveAs className='text-2xl hover:text-gray-500 transition duration-200 ease-in-out'/>
         {session?.user?.uid === uid && (

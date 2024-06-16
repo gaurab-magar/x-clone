@@ -6,8 +6,10 @@ import Modal from 'react-modal';
 import { useSession } from 'next-auth/react';
 import { HiX } from 'react-icons/hi';
 import { app } from '@/Firebase';
-import { doc, getFirestore, onSnapshot } from 'firebase/firestore';
+import { addDoc, collection, doc, getFirestore, onSnapshot, serverTimestamp } from 'firebase/firestore';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import Post from './Post';
 
 const CommentModal = () => {
 
@@ -16,10 +18,11 @@ const CommentModal = () => {
     const [post , setPost] = useState({});
     const [input,setInput] = useState('');
     const {data:session} = useSession();
+    const db = getFirestore(app)
+    const router = useRouter();
 
     useEffect(()=>{
-      const db = getFirestore(app)
-      if(!postId == ''){
+      if(postId !== ''){
         const postRef = doc(db,'posts',postId)
         const unsubscribe = onSnapshot(
           postRef,(snapshot)=>{
@@ -35,24 +38,28 @@ const CommentModal = () => {
     },[postId])
 
     const sendComment = async()=>{
-      if(input.trim() != ''){
-        const db = getFirestore(app)
-        const commentRef = doc(db,'posts',postId,'comments')
-        await db.collection('posts').doc(postId).collection('comments').add({
-          comment:input,
-          username:session.user.name,
-          userImage:session.user.image,
-          timestamp:Date.now(),
-          })
-          setInput('')
+     addDoc(collection(db,'posts',postId,'comments'),{
+        name: session.user.name,
+        username: session.user.username,
+        userImg: session.user.image,
+        comment: input,
+        timestamp: serverTimestamp(),
+     }).then(()=>{
+        setInput('');
+        setOpen(false);
+        router.push(`/post/${postId}`)
+     }).catch((error) =>{
+        console.log('Error adding docuemnt error',error)
+     })
     }
+
   return (
     <div>
         {open && (
           <Modal isOpen={open}
             onRequestClose={() => setOpen(false)}
             ariaHideApp={false}
-            className='max-w-lg w-[90%] absolute top-24 left-[50%] translate-x-[50%] bg-white border-2 border-gray-200 rounded-xl shadow-md'
+            className='max-w-lg w-[90%] absolute top-24 left-[50%] translate-x-[-50%] bg-white border-2 border-gray-200 rounded-xl shadow-md'
           >
             <div className='p-4'>
               <div className='border-b border-gray-200 py-4 px-1.5'>
@@ -60,7 +67,7 @@ const CommentModal = () => {
               </div>
               <div className='p-2 flex items-center space-x-1 relative'>
                   <span className='w-0.5 h-full z-[-1] absolute left-8 top-11 bg-gray-400'></span>
-                  <Image src={post?.userImg} alt='modaluser'  width={40} height={40} className='rounded-full h-11 w-11 mr-4' />
+                  <Image src={post?.ProfileImg} alt='modaluser'  width={40} height={40} className='rounded-full h-11 w-11 mr-4' />
                   <h4 className='font-bold '>{post?.name}</h4>
                   <span className='text-sm font-light truncate'>@{post?.username}</span>
               </div>
@@ -74,8 +81,8 @@ const CommentModal = () => {
                   placeholder='Whats happening ?'
                   rows='2'></textarea>
                 </div>
-                <div>
-                   <button disabled={input.trim() === ''} onClick={sendComment} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'>
+                <div className='flex items-center justify-end pt-2 '> 
+                   <button disabled={input.trim() === ''} onClick={sendComment} className='bg-blue-500 disabled:opacity-50 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full shadow-md'>
                      Tweet
                    </button>
                 </div>
