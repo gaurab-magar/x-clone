@@ -8,6 +8,7 @@ import { collection,getFirestore,onSnapshot, query } from 'firebase/firestore';
 const Comments = ({id}) => {
     const db = getFirestore(app);
     const [comments, setComments] = useState([]);
+    console.log(comments)
 
     useEffect(()=>{
          onSnapshot(
@@ -17,13 +18,14 @@ const Comments = ({id}) => {
             (snapshot)=>{
                 setComments(snapshot.docs);
                 }
-         )
+         ) 
     },[db,id])
   return (
     <div>
-        {comments.map((comment)=>{
-            <Comment key={comment.id} comment={comment.data()} id={comment.id}/>
-        })}
+        {comments.map((comment)=>(
+          <Comment key={comment.id} comment={comment.data()} commentId={comment.id} postId={id} />
+        )
+        )}
     </div>
   )
 }

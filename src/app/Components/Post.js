@@ -20,7 +20,7 @@ const Post = ({post,id}) => {
                     <BsThreeDots className='text-4xl px-2' />
                 </div>
                 <p className='py-2 font-semibold'>{post.text}</p>
-                <Link href={`/post/${1}`}>
+                <Link href={`/post/${id}`}>
                     <div className='h-80'>
                         <Image src={post.image} alt='uploadedImage' className='object-cover w-full h-full rounded-2xl shadow-md' width={50} height={50} />
                     </div>
