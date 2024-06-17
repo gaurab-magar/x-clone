@@ -1,8 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { app } from '@/Firebase';
-import { collection, getFirestore, onSnapshot, orderBy } from 'firebase/firestore';
 import Comment from './Comment';
+import { collection,getFirestore,onSnapshot, query } from 'firebase/firestore';
 
 
 const Comments = ({id}) => {
@@ -11,9 +11,8 @@ const Comments = ({id}) => {
 
     useEffect(()=>{
          onSnapshot(
-            quary(
-                collection(db,'posts',id,'comments'),
-                orderBy('timestamp','desc')
+           query(
+                collection(db,'posts',id,'comments')
             ),
             (snapshot)=>{
                 setComments(snapshot.docs);
@@ -23,7 +22,7 @@ const Comments = ({id}) => {
   return (
     <div>
         {comments.map((comment)=>{
-            <Comment key={comment.id} comment={comment.data} id={comment.id}/>
+            <Comment key={comment.id} comment={comment.data()} id={comment.id}/>
         })}
     </div>
   )
