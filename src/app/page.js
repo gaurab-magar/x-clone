@@ -1,13 +1,16 @@
 import Feed from "./Components/Feed";
 import Input from "./Components/Input";
+import { FaXTwitter } from "react-icons/fa6";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <div>
-      <h2 className="py-4 px-2 font-semibold top-0 sticky text-gray-600">Home</h2>
+      <Link href='/' className="flex items-center justify-center md:hidden">
+            <FaXTwitter className='w-16 h-16 hover:bg-gray-100 cursor-pointer p-3 rounded-full transition-all duration-200' />
+        </Link>
       <Input />
       <Feed />
-      <h1>hello this is gaurab nad making x project</h1>
     </div>
   );
 }
